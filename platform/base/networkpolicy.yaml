@@ -1,0 +1,37 @@
+# Keep broker and Connect REST traffic inside this namespace.
+# The Strimzi operator reconciles connectors over port 8083 from the same namespace.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: kafka-namespace-only
+  namespace: kafka-connect-gitops
+spec:
+  podSelector:
+    matchLabels:
+      strimzi.io/cluster: demo-kafka
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector: {}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: connect-rest-namespace-only
+  namespace: kafka-connect-gitops
+spec:
+  podSelector:
+    matchLabels:
+      strimzi.io/cluster: connect-tier1-cdc
+      strimzi.io/kind: KafkaConnect
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector: {}
+      ports:
+        - protocol: TCP
+          port: 8083
+        - protocol: TCP
+          port: 9404

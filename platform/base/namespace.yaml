@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kafka-connect-gitops
+  labels:
+    app.kubernetes.io/name: kafka-connect-gitops
+    app.kubernetes.io/part-of: kafka-connect-gitops

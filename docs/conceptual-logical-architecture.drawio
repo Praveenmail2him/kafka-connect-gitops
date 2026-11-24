@@ -1,0 +1,197 @@
+<mxfile host="app.diagrams.net" agent="architecture" version="22.1.0" type="device">
+  <diagram id="conceptual-logical" name="Conceptual and logical architecture">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="Conceptual and logical architecture" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=22;fontStyle=1;fontColor=#1b2420;" vertex="1" parent="1">
+          <mxGeometry x="40" y="24" width="720" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="subtitle" value="A multi-tenant streaming integration tier. Workers are stateless. Kafka holds both the business records and Connect&#39;s own coordination state." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Helvetica;fontSize=13;fontColor=#5e6b64;" vertex="1" parent="1">
+          <mxGeometry x="40" y="56" width="1100" height="24" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="panel-sources" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f7f3ec;strokeColor=#e0d5c4;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="110" width="220" height="620" as="geometry"/>
+        </mxCell>
+        <mxCell id="panel-connect" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f7f4;strokeColor=#c9d8cf;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="300" y="110" width="620" height="620" as="geometry"/>
+        </mxCell>
+        <mxCell id="panel-kafka" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fbf7f0;strokeColor=#e6d7bc;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="960" y="110" width="280" height="380" as="geometry"/>
+        </mxCell>
+        <mxCell id="panel-trust" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8f4f2;strokeColor=#e4d4ce;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="960" y="510" width="280" height="220" as="geometry"/>
+        </mxCell>
+        <mxCell id="panel-sinks" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f4f6f8;strokeColor=#d3dae1;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="1280" y="110" width="240" height="620" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="h-sources" value="EXTERNAL SOURCES" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#8a735c;spacingLeft=4;" vertex="1" parent="1">
+          <mxGeometry x="56" y="124" width="180" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="h-connect" value="KAFKA CONNECT  ·  DISTRIBUTED MODE" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#2f6a4e;spacingLeft=4;" vertex="1" parent="1">
+          <mxGeometry x="316" y="124" width="400" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="h-kafka" value="KAFKA CORE" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#8a6230;spacingLeft=4;" vertex="1" parent="1">
+          <mxGeometry x="976" y="124" width="200" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="h-trust" value="CONTRACT AND FAILURES" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#8d5348;spacingLeft=4;" vertex="1" parent="1">
+          <mxGeometry x="976" y="524" width="220" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="h-sinks" value="EXTERNAL SINKS" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#4d6274;spacingLeft=4;" vertex="1" parent="1">
+          <mxGeometry x="1296" y="124" width="180" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="src-db" value="Operational databases" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffdf8;strokeColor=#d9cbb6;fontFamily=Helvetica;fontSize=13;fontColor=#1b2420;arcSize=16;" vertex="1" parent="1">
+          <mxGeometry x="64" y="168" width="172" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="src-cdc" value="Change data capture" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffdf8;strokeColor=#d9cbb6;fontFamily=Helvetica;fontSize=13;fontColor=#1b2420;arcSize=16;" vertex="1" parent="1">
+          <mxGeometry x="64" y="252" width="172" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="src-logs" value="Application and log streams" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffdf8;strokeColor=#d9cbb6;fontFamily=Helvetica;fontSize=13;fontColor=#1b2420;arcSize=16;" vertex="1" parent="1">
+          <mxGeometry x="64" y="336" width="172" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="src-note" value="Systems of record. The platform reads committed change, not a private copy of the source." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Helvetica;fontSize=12;fontColor=#5e6b64;" vertex="1" parent="1">
+          <mxGeometry x="64" y="420" width="172" height="72" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="layer-exec" value="EXECUTION LAYER" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontFamily=Helvetica;fontSize=10;fontStyle=1;fontColor=#5e6b64;" vertex="1" parent="1">
+          <mxGeometry x="324" y="160" width="200" height="16" as="geometry"/>
+        </mxCell>
+        <mxCell id="worker-1" value="Worker 1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1f3d34;fontColor=#f4efe6;strokeColor=#1f3d34;fontFamily=Helvetica;fontSize=13;fontStyle=1;arcSize=20;" vertex="1" parent="1">
+          <mxGeometry x="324" y="184" width="160" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="worker-2" value="Worker 2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1f3d34;fontColor=#f4efe6;strokeColor=#1f3d34;fontFamily=Helvetica;fontSize=13;fontStyle=1;arcSize=20;" vertex="1" parent="1">
+          <mxGeometry x="504" y="184" width="160" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="worker-n" value="Worker N" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1f3d34;fontColor=#f4efe6;strokeColor=#1f3d34;fontFamily=Helvetica;fontSize=13;fontStyle=1;arcSize=20;" vertex="1" parent="1">
+          <mxGeometry x="684" y="184" width="160" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="worker-note" value="Stateless JVM pods. A connector is the logical job. Tasks are the parallel units, spread across workers." style="text;html=1;strokeColor=none;fillColor=none;align=left;fontFamily=Helvetica;fontSize=12;fontColor=#5e6b64;" vertex="1" parent="1">
+          <mxGeometry x="324" y="236" width="520" height="32" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="layer-xform" value="IN-FLIGHT TRANSFORMATION AND SERIALIZATION" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontFamily=Helvetica;fontSize=10;fontStyle=1;fontColor=#5e6b64;" vertex="1" parent="1">
+          <mxGeometry x="324" y="286" width="420" height="16" as="geometry"/>
+        </mxCell>
+        <mxCell id="task-source" value="&lt;b&gt;Source tasks&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px;color:#5e6b64&quot;&gt;Read committed change&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffdf8;strokeColor=#b7c9be;fontFamily=Helvetica;fontSize=14;fontColor=#1b2420;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="324" y="312" width="160" height="88" as="geometry"/>
+        </mxCell>
+        <mxCell id="task-smt" value="&lt;b&gt;SMTs and converters&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px;color:#5e6b64&quot;&gt;Mask, route, normalize.&lt;br&gt;Avro or Protobuf.&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffdf8;strokeColor=#b7c9be;fontFamily=Helvetica;fontSize=14;fontColor=#1b2420;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="530" y="312" width="180" height="88" as="geometry"/>
+        </mxCell>
+        <mxCell id="task-sink" value="&lt;b&gt;Sink tasks&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px;color:#5e6b64&quot;&gt;Idempotent write-out&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffdf8;strokeColor=#b7c9be;fontFamily=Helvetica;fontSize=14;fontColor=#1b2420;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="756" y="312" width="140" height="88" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="connect-foot" value="Workers persist zero local state. Cooperative rebalancing pauses only the tasks that move, so the rest of the pipeline keeps streaming. Credentials resolve at runtime from an external secrets store. Nothing secret is stored in Git." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Helvetica;fontSize=12;fontColor=#5e6b64;" vertex="1" parent="1">
+          <mxGeometry x="324" y="430" width="560" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="layer-state-call" value="STATE AND COORDINATION" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontFamily=Helvetica;fontSize=10;fontStyle=1;fontColor=#5e6b64;" vertex="1" parent="1">
+          <mxGeometry x="324" y="510" width="240" height="16" as="geometry"/>
+        </mxCell>
+        <mxCell id="state-hint" value="Offsets, task config, and status live in Kafka, not on the pod. A restarted worker resumes from the log." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Helvetica;fontSize=12;fontColor=#5e6b64;" vertex="1" parent="1">
+          <mxGeometry x="324" y="532" width="400" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="topic-data" value="&lt;b&gt;Data topics&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:12px;color:#5e6b64&quot;&gt;The business stream.&lt;br&gt;Consumers read from here.&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffdf8;strokeColor=#e0c89a;fontFamily=Helvetica;fontSize=14;fontColor=#1b2420;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="984" y="168" width="232" height="88" as="geometry"/>
+        </mxCell>
+        <mxCell id="topic-internal" value="&lt;b&gt;Internal state topics&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:12px;color:#5e6b64&quot;&gt;configs · offsets · status&lt;br&gt;Compacted. Replication 3.&lt;br&gt;Minimum in-sync replicas 2.&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffdf8;strokeColor=#e0c89a;fontFamily=Helvetica;fontSize=14;fontColor=#1b2420;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="984" y="276" width="232" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="kafka-note" value="Connect and the brokers are separate failure domains." style="text;html=1;strokeColor=none;fillColor=none;align=left;fontFamily=Helvetica;fontSize=12;fontColor=#5e6b64;" vertex="1" parent="1">
+          <mxGeometry x="984" y="400" width="232" height="36" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="schema" value="&lt;b&gt;Schema Registry&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:12px;color:#5e6b64&quot;&gt;Backward or full compatibility&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffdf8;strokeColor=#e0cdc6;fontFamily=Helvetica;fontSize=14;fontColor=#1b2420;arcSize=14;" vertex="1" parent="1">
+          <mxGeometry x="984" y="564" width="232" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="dlq" value="&lt;b&gt;Dead-letter topics&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:12px;color:#5e6b64&quot;&gt;Poison records, with context headers&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffdf8;strokeColor=#e0cdc6;fontFamily=Helvetica;fontSize=14;fontColor=#1b2420;arcSize=14;" vertex="1" parent="1">
+          <mxGeometry x="984" y="644" width="232" height="64" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="sink-search" value="Search" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffdf8;strokeColor=#cfd6de;fontFamily=Helvetica;fontSize=13;fontColor=#1b2420;arcSize=16;" vertex="1" parent="1">
+          <mxGeometry x="1304" y="168" width="192" height="56" as="geometry"/>
+        </mxCell>
+        <mxCell id="sink-object" value="Object storage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffdf8;strokeColor=#cfd6de;fontFamily=Helvetica;fontSize=13;fontColor=#1b2420;arcSize=16;" vertex="1" parent="1">
+          <mxGeometry x="1304" y="240" width="192" height="56" as="geometry"/>
+        </mxCell>
+        <mxCell id="sink-wh" value="Analytical warehouse" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffdf8;strokeColor=#cfd6de;fontFamily=Helvetica;fontSize=13;fontColor=#1b2420;arcSize=16;" vertex="1" parent="1">
+          <mxGeometry x="1304" y="312" width="192" height="56" as="geometry"/>
+        </mxCell>
+        <mxCell id="sink-apps" value="Downstream applications" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffdf8;strokeColor=#cfd6de;fontFamily=Helvetica;fontSize=13;fontColor=#1b2420;arcSize=16;" vertex="1" parent="1">
+          <mxGeometry x="1304" y="384" width="192" height="56" as="geometry"/>
+        </mxCell>
+        <mxCell id="sink-note" value="Each sink class runs in its own Connect cluster, so a heavy batch writer cannot stall a low-latency capture flow." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Helvetica;fontSize=12;fontColor=#5e6b64;" vertex="1" parent="1">
+          <mxGeometry x="1304" y="460" width="192" height="80" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e-src-task" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#5e6b64;strokeWidth=1.5;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="src-cdc" target="task-source">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e-src-task-l" value="records" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=#5e6b64;" vertex="1" connectable="0" parent="e-src-task">
+          <mxGeometry x="-0.1" y="-1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="e-src-db" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#c4b49a;strokeWidth=1;exitX=1;exitY=0.5;entryX=0;entryY=0.25;" edge="1" parent="1" source="src-db" target="task-source">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e-src-logs" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#c4b49a;strokeWidth=1;exitX=1;exitY=0.5;entryX=0;entryY=0.75;" edge="1" parent="1" source="src-logs" target="task-source">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e-smt" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#2f6a4e;strokeWidth=1.5;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="task-source" target="task-smt">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e-sink" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#2f6a4e;strokeWidth=1.5;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="task-smt" target="task-sink">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e-data" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#8a6230;strokeWidth=1.75;exitX=1;exitY=0.35;entryX=0;entryY=0.5;" edge="1" parent="1" source="task-sink" target="topic-data">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e-data-l" value="publish" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=#8a6230;" vertex="1" connectable="0" parent="e-data">
+          <mxGeometry relative="1" as="geometry"><mxPoint y="-12" as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="e-state" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;startArrow=block;endFill=1;startFill=1;strokeColor=#8a6230;strokeWidth=1.25;dashed=1;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" edge="1" parent="1" source="state-hint" target="topic-internal">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e-state-l" value="config, offsets, status" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=#8a6230;" vertex="1" connectable="0" parent="e-state">
+          <mxGeometry relative="1" as="geometry"><mxPoint y="-14" as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="e-schema" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;startArrow=block;endFill=1;startFill=1;strokeColor=#8d5348;strokeWidth=1.25;dashed=1;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" edge="1" parent="1" source="task-smt" target="schema">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e-schema-l" value="schema contract" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=#8d5348;" vertex="1" connectable="0" parent="e-schema">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="20" y="-10" as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="e-dlq" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#8d5348;strokeWidth=1.25;dashed=1;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" edge="1" parent="1" source="task-sink" target="dlq">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e-dlq-l" value="poison records" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=#8d5348;" vertex="1" connectable="0" parent="e-dlq">
+          <mxGeometry relative="1" as="geometry"><mxPoint y="12" as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="e-out" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#4d6274;strokeWidth=1.75;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="topic-data" target="sink-search">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e-out-2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#4d6274;strokeWidth=1.25;exitX=1;exitY=0.75;entryX=0;entryY=0.5;" edge="1" parent="1" source="topic-data" target="sink-object">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e-out-3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#4d6274;strokeWidth=1.25;exitX=1;exitY=1;entryX=0;entryY=0.5;" edge="1" parent="1" source="topic-data" target="sink-wh">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e-out-4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#4d6274;strokeWidth=1.25;exitX=1;exitY=1;entryX=0;entryY=0.5;" edge="1" parent="1" source="topic-data" target="sink-apps">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1240" y="412"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="legend" value="Three layers:  execution (workers and tasks)   ·   state and coordination (compacted internal topics)   ·   transformation and serialization (SMTs, converters, schema registry)" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontFamily=Helvetica;fontSize=12;fontColor=#5e6b64;" vertex="1" parent="1">
+          <mxGeometry x="40" y="750" width="1400" height="28" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

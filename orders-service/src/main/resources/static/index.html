@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Order flow · Kafka Connect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,640&family=Outfit:wght@380;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f4efe6;
+      --ink: #1b2420;
+      --muted: #5e6b64;
+      --line: #d8cfc0;
+      --card: #fffdf8;
+      --moss: #1e6a45;
+      --moss-soft: #e5f3eb;
+      --amber: #b86112;
+      --amber-soft: #f8ead7;
+      --clay: #8d3b32;
+      --clay-soft: #f8e6e2;
+      --shadow: 0 16px 40px rgba(48, 38, 22, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 420px at 8% -10%, #efe2cc 0%, transparent 60%),
+        radial-gradient(700px 380px at 100% 0%, #e7efe4 0%, transparent 55%),
+        var(--paper);
+      font-family: Outfit, "Segoe UI", sans-serif;
+      font-weight: 380;
+    }
+
+    .wrap {
+      width: min(1140px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 64px;
+    }
+
+    header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .eyebrow {
+      margin: 0 0 4px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Fraunces, Georgia, serif;
+      font-weight: 560;
+      font-size: clamp(36px, 5vw, 58px);
+      letter-spacing: -0.03em;
+      line-height: 0.95;
+    }
+
+    h1 span { color: var(--amber); }
+
+    .pills { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 248, 0.8);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #b7aea0;
+    }
+
+    .dot.up { background: var(--moss); box-shadow: 0 0 0 4px var(--moss-soft); }
+    .dot.down { background: var(--clay); box-shadow: 0 0 0 4px var(--clay-soft); }
+
+    .board {
+      display: grid;
+      grid-template-columns: 1.15fr 56px 0.9fr 56px 0.9fr 56px 0.85fr;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .node {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 18px 18px 16px;
+      box-shadow: var(--shadow);
+      min-height: 250px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .node.hot {
+      outline: 2px solid #e7c49a;
+      outline-offset: 3px;
+      transition: outline-color 200ms ease;
+    }
+
+    .stage-body { margin-top: auto; padding-top: 14px; }
+
+    .partitions { display: grid; gap: 7px; }
+
+    .partition {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .partition > span {
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+
+    .log {
+      position: relative;
+      height: 26px;
+      border-radius: 999px;
+      background:
+        repeating-linear-gradient(90deg, #efe8db 0 10px, #f7f2e9 10px 18px);
+      overflow: hidden;
+    }
+
+    .log.hit { animation: lane 700ms ease; }
+
+    .ticket {
+      position: absolute;
+      top: 4px;
+      right: 6px;
+      max-width: calc(100% - 12px);
+      height: 18px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: #f6f1e7;
+      font-size: 11px;
+      line-height: 18px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ticket.fly { animation: land 680ms cubic-bezier(.16, .84, .32, 1); }
+
+    .task {
+      position: relative;
+      height: 86px;
+      border-radius: 16px;
+      background: #1b2420;
+      color: #f4efe6;
+      overflow: hidden;
+      padding: 14px 14px 12px;
+    }
+
+    .scan {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 38%;
+      background: linear-gradient(90deg, transparent, rgba(230, 161, 92, 0.38), transparent);
+      animation: scan 2.6s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .task small {
+      position: relative;
+      display: block;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 10px;
+      color: #c8b8a2;
+    }
+
+    .task strong {
+      position: relative;
+      display: block;
+      margin-top: 6px;
+      font-family: Fraunces, Georgia, serif;
+      font-size: 22px;
+      font-weight: 560;
+      letter-spacing: -0.03em;
+    }
+
+    .task strong.arrive { animation: pop 520ms cubic-bezier(.16, .84, .32, 1); }
+
+    .file {
+      min-height: 92px;
+      margin: 0;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: #241c16;
+      color: #f0d7b4;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 11px;
+      line-height: 1.7;
+      overflow: hidden;
+    }
+
+    .file .line {
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .file .line.typed { animation: typed 640ms steps(24, end); }
+
+    .cursor {
+      display: inline-block;
+      width: 7px;
+      height: 11px;
+      margin-left: 2px;
+      background: #e6a15c;
+      vertical-align: -1px;
+      animation: blink 1s steps(1) infinite;
+    }
+
+    @keyframes land {
+      from { transform: translateX(-130%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes lane {
+      0% { box-shadow: inset 0 0 0 0 rgba(184, 97, 18, 0); }
+      40% { box-shadow: inset 0 0 0 2px rgba(184, 97, 18, 0.55); }
+      100% { box-shadow: inset 0 0 0 0 rgba(184, 97, 18, 0); }
+    }
+
+    @keyframes scan {
+      0% { transform: translateX(-120%); }
+      100% { transform: translateX(320%); }
+    }
+
+    @keyframes pop {
+      from { transform: translateY(8px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes typed {
+      from { max-width: 0; }
+      to { max-width: 100%; }
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    .kicker {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .node h2 {
+      margin: 10px 0 6px;
+      font-family: Fraunces, Georgia, serif;
+      font-size: 28px;
+      font-weight: 560;
+      letter-spacing: -0.03em;
+    }
+
+    .node p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.45; }
+
+    .badge {
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      background: #efeae1;
+      color: var(--ink);
+    }
+
+    .badge.run { background: var(--moss-soft); color: var(--moss); }
+    .badge.bad { background: var(--clay-soft); color: var(--clay); }
+
+    form { display: grid; gap: 8px; margin-top: 14px; }
+
+    label { font-size: 12px; color: var(--muted); }
+
+    input {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font: inherit;
+      color: var(--ink);
+    }
+
+    input:focus { outline: 2px solid #e7c49a; border-color: transparent; }
+
+    .row { display: grid; grid-template-columns: 1fr 88px; gap: 8px; }
+
+    button {
+      margin-top: 4px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--ink);
+      color: #f7f3ea;
+      font: inherit;
+      font-weight: 560;
+      padding: 11px 14px;
+      cursor: pointer;
+    }
+
+    button:disabled { opacity: 0.55; cursor: wait; }
+
+    .note { min-height: 18px; margin-top: 8px; font-size: 13px; color: var(--clay); }
+
+    .volume {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--line);
+      display: grid;
+      gap: 8px;
+    }
+
+    .presets { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .presets button, #volume-stop {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      padding: 7px 10px;
+    }
+
+    .meter {
+      height: 8px;
+      border-radius: 999px;
+      background: #efe8db;
+      overflow: hidden;
+    }
+
+    .meter > span {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: var(--amber);
+    }
+
+    #volume-stat { margin: 0; color: var(--muted); font-size: 13px; min-height: 18px; }
+
+    .board.rush .scan { animation-duration: 0.6s; }
+    .board.rush .log { animation: lane 0.9s linear infinite; }
+
+    .rail {
+      position: relative;
+      align-self: center;
+      height: 2px;
+      background: repeating-linear-gradient(90deg, #c9bfb0 0 7px, transparent 7px 13px);
+    }
+
+    .rail.live::after {
+      content: "";
+      position: absolute;
+      top: -5px;
+      left: 0;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--amber);
+      box-shadow: 0 0 0 5px var(--amber-soft);
+      animation: travel 900ms ease-in-out;
+    }
+
+    @keyframes travel {
+      from { left: 0; }
+      to { left: calc(100% - 12px); }
+    }
+
+    .side {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .chip {
+      background: rgba(255, 253, 248, 0.72);
+      border: 1px dashed var(--line);
+      border-radius: 16px;
+      padding: 14px 16px;
+    }
+
+    .chip strong { display: block; font-family: Fraunces, Georgia, serif; font-size: 20px; font-weight: 560; }
+    .chip span { color: var(--muted); font-size: 13px; }
+
+    .arrow {
+      color: #b7aea0;
+      font-size: 20px;
+    }
+
+    .ledger {
+      margin-top: 28px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .ledger header {
+      margin: 0;
+      padding: 16px 18px 8px;
+      align-items: baseline;
+    }
+
+    .ledger h2 {
+      margin: 0;
+      font-family: Fraunces, Georgia, serif;
+      font-size: 26px;
+      font-weight: 560;
+    }
+
+    table { width: 100%; border-collapse: collapse; }
+
+    th, td {
+      text-align: left;
+      padding: 12px 18px;
+      border-top: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    th { color: var(--muted); font-weight: 500; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    tr.fresh td { background: #fff8ee; }
+
+    .empty { padding: 22px 18px 26px; color: var(--muted); }
+
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+
+    @media (max-width: 980px) {
+      header { align-items: flex-start; flex-direction: column; }
+      .pills { justify-content: flex-start; }
+      .board, .side { grid-template-columns: 1fr; }
+      .rail { width: 2px; height: 28px; justify-self: center; background: repeating-linear-gradient(#c9bfb0 0 7px, transparent 7px 13px); }
+      .rail.live::after { animation: drop 900ms ease-in-out; left: -5px; top: 0; }
+      .arrow { transform: rotate(90deg); justify-self: center; }
+      .node { min-height: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ticket.fly, .task strong.arrive, .file .line.typed, .scan, .rail.live::after, .cursor {
+        animation: none;
+      }
+    }
+
+    @keyframes drop {
+      from { top: 0; }
+      to { top: calc(100% - 12px); }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <div>
+        <p class="eyebrow">kafka-connect-gitops</p>
+        <h1>How an order <span>moves</span></h1>
+      </div>
+      <div class="pills">
+        <div class="pill"><span id="kafka-dot" class="dot"></span><span id="kafka-label">Kafka …</span></div>
+        <div class="pill"><span id="sink-dot" class="dot"></span><span id="sink-label">Sink …</span></div>
+        <div class="pill"><span id="source-dot" class="dot"></span><span id="source-label">Source …</span></div>
+      </div>
+    </header>
+
+    <section class="board" aria-label="Order path">
+      <article class="node" id="node-desk">
+        <div class="kicker"><span>01 · intake</span></div>
+        <h2>Order desk</h2>
+        <p>A record starts here and is published to Kafka.</p>
+        <form id="order-form">
+          <label>Customer<input name="customer" required placeholder="ada" autocomplete="name"></label>
+          <div class="row">
+            <label>SKU<input name="sku" required placeholder="SKU-1"></label>
+            <label>Qty<input name="quantity" type="number" min="1" value="1" required></label>
+          </div>
+          <button type="submit" id="send">Send order</button>
+          <div class="note" id="form-note" role="status"></div>
+        </form>
+        <div class="volume">
+          <label>Volume, up to 10 billion
+            <input id="volume-count" type="number" min="1" max="10000000000" value="1000">
+          </label>
+          <div class="presets">
+            <button type="button" data-n="1000">1k</button>
+            <button type="button" data-n="1000000">1M</button>
+            <button type="button" data-n="1000000000">1B</button>
+            <button type="button" data-n="10000000000">10B</button>
+          </div>
+          <button type="button" id="volume-send">Send volume</button>
+          <button type="button" id="volume-stop" hidden>Stop</button>
+          <div class="meter" aria-hidden="true"><span id="meter-bar"></span></div>
+          <p id="volume-stat">Batched publish. One run at a time.</p>
+        </div>
+      </article>
+      <div class="rail" data-rail></div>
+      <article class="node" id="node-topic">
+        <div class="kicker"><span>02 · topic</span><span class="badge" id="topic-badge">orders</span></div>
+        <h2>orders</h2>
+        <p>The record lands on one of three partitions.</p>
+        <div class="stage-body partitions" aria-hidden="true">
+          <div class="partition"><span>p0</span><div class="log" data-p="0"></div></div>
+          <div class="partition"><span>p1</span><div class="log" data-p="1"></div></div>
+          <div class="partition"><span>p2</span><div class="log" data-p="2"></div></div>
+        </div>
+      </article>
+      <div class="rail" data-rail></div>
+      <article class="node" id="node-connect">
+        <div class="kicker"><span>03 · connect</span><span class="badge" id="sink-badge">…</span></div>
+        <h2>File sink</h2>
+        <p id="sink-copy">The task reads the record off the topic.</p>
+        <div class="stage-body task" id="task-stage">
+          <div class="scan"></div>
+          <small>task 0</small>
+          <strong id="task-card">waiting</strong>
+        </div>
+      </article>
+      <div class="rail" data-rail></div>
+      <article class="node" id="node-file">
+        <div class="kicker"><span>04 · egress</span></div>
+        <h2>Worker file</h2>
+        <p>Appended to <code>/tmp/orders.sink</code>.</p>
+        <div class="stage-body">
+          <pre class="file" id="file-lines"><span class="cursor"></span></pre>
+        </div>
+      </article>
+    </section>
+
+    <section class="side" aria-label="License file path">
+      <div class="chip"><strong>/opt/kafka/LICENSE</strong><span>File shipped in the worker image</span></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="chip"><strong>license-lines</strong><span id="source-copy">Source connector</span></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="chip"><strong>license-file-source</strong><span>Open-source stand-in for a CDC source</span></div>
+    </section>
+
+    <section class="ledger">
+      <header>
+        <h2>On the wire</h2>
+        <p class="eyebrow" id="count">Waiting for records</p>
+      </header>
+      <div id="table-wrap"></div>
+    </section>
+  </main>
+  <script>
+    const form = document.getElementById("order-form");
+    const note = document.getElementById("form-note");
+    const send = document.getElementById("send");
+    const tableWrap = document.getElementById("table-wrap");
+    let seen = new Set();
+    let primed = false;
+
+    function paintState(elDot, elLabel, elBadge, state, label) {
+      elDot.className = "dot" + (state === "UP" || state === "RUNNING" ? " up" : state === "DOWN" || state === "FAILED" || state === "UNREACHABLE" ? " down" : "");
+      elLabel.textContent = label;
+      if (elBadge) {
+        elBadge.textContent = state;
+        elBadge.className = "badge" + (state === "RUNNING" || state === "UP" ? " run" : state === "FAILED" || state === "UNREACHABLE" || state === "DOWN" ? " bad" : "");
+      }
+    }
+
+    function connector(flow, name) {
+      return (flow.connectors || []).find((item) => item.name === name) || { state: "UNKNOWN", runningTasks: 0 };
+    }
+
+    function renderOrders(orders) {
+      const count = document.getElementById("count");
+      if (!orders.length) {
+        count.textContent = "No orders yet";
+        tableWrap.innerHTML = '<p class="empty">Send one from the desk. It will show up here after Kafka accepts it.</p>';
+        return;
+      }
+      count.textContent = orders.length + (orders.length === 1 ? " order" : " orders");
+      const rows = orders.map((order) => {
+        const fresh = primed && !seen.has(order.id);
+        return `<tr class="${fresh ? "fresh" : ""}">
+          <td>${escapeHtml(order.customer)}</td>
+          <td>${escapeHtml(order.sku)}</td>
+          <td>${order.quantity}</td>
+          <td>${formatTime(order.createdAt)}</td>
+          <td><code>${escapeHtml(order.id).slice(0, 8)}</code></td>
+        </tr>`;
+      }).join("");
+      tableWrap.innerHTML = `<table>
+        <thead><tr><th>Customer</th><th>SKU</th><th>Qty</th><th>When</th><th>Id</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+      orders.forEach((order) => seen.add(order.id));
+      primed = true;
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+    }
+
+    function formatTime(value) {
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return escapeHtml(value);
+      return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    }
+
+    async function refresh() {
+      const response = await fetch("/api/flow");
+      if (!response.ok) throw new Error("flow " + response.status);
+      const flow = await response.json();
+      paintState(document.getElementById("kafka-dot"), document.getElementById("kafka-label"), null, flow.kafka, "Kafka " + flow.kafka.toLowerCase());
+      const sink = connector(flow, "orders-file-sink");
+      const source = connector(flow, "license-file-source");
+      paintState(document.getElementById("sink-dot"), document.getElementById("sink-label"), document.getElementById("sink-badge"), sink.state, "Sink " + sink.state.toLowerCase());
+      paintState(document.getElementById("source-dot"), document.getElementById("source-label"), null, source.state, "Source " + source.state.toLowerCase());
+      document.getElementById("sink-copy").textContent = sink.state === "RUNNING"
+        ? "Task is running. Each order is appended on the worker."
+        : "Connector state is " + sink.state + ".";
+      document.getElementById("source-copy").textContent = source.state === "RUNNING"
+        ? "Streaming license lines into Kafka."
+        : "Connector state is " + source.state + ".";
+      document.getElementById("topic-badge").textContent = flow.ordersTopic || "orders";
+      const orders = flow.orders || [];
+      renderOrders(orders);
+      if (!staged && orders.length) {
+        orders.slice(0, 3).reverse().forEach((order) => settle(order));
+        staged = true;
+      }
+    }
+
+    function hash(value) {
+      let n = 0;
+      for (const ch of value) n = (n * 33 + ch.charCodeAt(0)) >>> 0;
+      return n;
+    }
+
+    function highlight(id) {
+      const node = document.getElementById(id);
+      node.classList.add("hot");
+      setTimeout(() => node.classList.remove("hot"), 900);
+    }
+
+    function landOnPartition(order, animate) {
+      const lane = document.querySelector('[data-p="' + (hash(order.id) % 3) + '"]');
+      const ticket = document.createElement("span");
+      ticket.className = "ticket" + (animate ? " fly" : "");
+      ticket.textContent = order.sku;
+      lane.appendChild(ticket);
+      if (animate) {
+        lane.classList.remove("hit");
+        void lane.offsetWidth;
+        lane.classList.add("hit");
+        highlight("node-topic");
+      }
+      while (lane.children.length > 1) lane.removeChild(lane.firstChild);
+    }
+
+    function showInTask(order, animate) {
+      const card = document.getElementById("task-card");
+      card.textContent = order.customer + " · " + order.sku;
+      if (!animate) return;
+      card.classList.remove("arrive");
+      void card.offsetWidth;
+      card.classList.add("arrive");
+      highlight("node-connect");
+    }
+
+    function writeLine(order, animate) {
+      const file = document.getElementById("file-lines");
+      const line = document.createElement("span");
+      line.className = "line" + (animate ? " typed" : "");
+      line.textContent = order.sku + "  " + order.customer + "  ×" + order.quantity;
+      file.insertBefore(line, file.querySelector(".cursor"));
+      while (file.querySelectorAll(".line").length > 3) file.querySelector(".line").remove();
+      if (animate) highlight("node-file");
+    }
+
+    function settle(order) {
+      landOnPartition(order, false);
+      showInTask(order, false);
+      writeLine(order, false);
+    }
+
+    function play(order) {
+      const rails = [...document.querySelectorAll("[data-rail]")];
+      rails.forEach((rail, index) => {
+        setTimeout(() => {
+          rail.classList.remove("live");
+          void rail.offsetWidth;
+          rail.classList.add("live");
+        }, index * 700);
+      });
+      setTimeout(() => landOnPartition(order, true), 650);
+      setTimeout(() => showInTask(order, true), 1400);
+      setTimeout(() => writeLine(order, true), 2100);
+    }
+
+    let staged = false;
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const body = {
+        customer: data.get("customer").trim(),
+        sku: data.get("sku").trim(),
+        quantity: Number(data.get("quantity"))
+      };
+      send.disabled = true;
+      note.textContent = "";
+      try {
+        const response = await fetch("/api/orders", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(body)
+        });
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload.error || "Kafka did not accept the order");
+        note.style.color = "#1e6a45";
+        note.textContent = "Accepted " + payload.id.slice(0, 8);
+        staged = true;
+        play(payload);
+        await refresh();
+      } catch (error) {
+        note.style.color = "#8d3b32";
+        note.textContent = error.message;
+      } finally {
+        send.disabled = false;
+      }
+    });
+
+    const volumeCount = document.getElementById("volume-count");
+    const volumeSend = document.getElementById("volume-send");
+    const volumeStop = document.getElementById("volume-stop");
+    const volumeStat = document.getElementById("volume-stat");
+    const meterBar = document.getElementById("meter-bar");
+    const board = document.querySelector(".board");
+
+    document.querySelectorAll(".presets button").forEach((button) => {
+      button.addEventListener("click", () => {
+        volumeCount.value = button.dataset.n;
+      });
+    });
+
+    function formatCount(value) {
+      return Number(value).toLocaleString("en-US");
+    }
+
+    function paintVolume(job) {
+      const running = job.state === "RUNNING";
+      const done = job.total > 0 ? Math.min(100, Math.round((job.sent / job.total) * 100)) : 0;
+      meterBar.style.width = done + "%";
+      volumeSend.disabled = running;
+      volumeStop.hidden = !running;
+      board.classList.toggle("rush", running);
+      if (job.state === "IDLE") {
+        volumeStat.textContent = "Batched publish. One run at a time.";
+        return;
+      }
+      const detail = formatCount(job.sent) + " / " + formatCount(job.total)
+        + " · " + formatCount(job.perSecond) + "/s"
+        + (job.failed ? " · " + formatCount(job.failed) + " failed" : "");
+      volumeStat.textContent = job.state === "RUNNING" ? detail : job.state.toLowerCase() + " · " + detail;
+      if (running) {
+        document.getElementById("task-card").textContent = formatCount(job.sent) + " sent";
+        const lane = document.querySelector('[data-p="' + (job.sent % 3) + '"]');
+        lane.replaceChildren();
+        const ticket = document.createElement("span");
+        ticket.className = "ticket";
+        ticket.textContent = formatCount(job.sent);
+        lane.appendChild(ticket);
+      }
+    }
+
+    async function pollVolume() {
+      const response = await fetch("/api/orders/bulk");
+      if (!response.ok) return;
+      const job = await response.json();
+      paintVolume(job);
+      if (job.state === "RUNNING") {
+        setTimeout(() => pollVolume().catch(() => {}), 500);
+      }
+    }
+
+    volumeSend.addEventListener("click", async () => {
+      const count = Number(volumeCount.value);
+      if (!Number.isInteger(count) || count < 1 || count > 10000000000) {
+        volumeStat.textContent = "Choose a count from 1 to 10,000,000,000.";
+        return;
+      }
+      volumeSend.disabled = true;
+      volumeStat.textContent = "Starting " + formatCount(count) + "…";
+      try {
+        const response = await fetch("/api/orders/bulk", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ count })
+        });
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload.error || payload.detail || payload.message || "Volume run was rejected");
+        paintVolume(payload);
+        pollVolume();
+      } catch (error) {
+        volumeSend.disabled = false;
+        volumeStat.textContent = error.message;
+      }
+    });
+
+    volumeStop.addEventListener("click", async () => {
+      volumeStop.disabled = true;
+      await fetch("/api/orders/bulk/cancel", { method: "POST" });
+      volumeStop.disabled = false;
+      pollVolume();
+    });
+
+    refresh().catch(() => {
+      note.textContent = "Live status is unavailable.";
+    });
+    pollVolume().catch(() => {});
+    setInterval(() => refresh().catch(() => {}), 4000);
+  </script>
+</body>
+</html>

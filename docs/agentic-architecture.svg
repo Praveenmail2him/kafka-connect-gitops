@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1580 700" role="img" aria-labelledby="ag-title ag-desc">
+  <title id="ag-title">Agentic architecture with an MCP server</title>
+  <desc id="ag-desc">Sources feed a source agent, a transform agent, and a sink agent. Those agents share one MCP server as their toolbox. Kafka holds the business stream and the agents' notes. Rules, the schema contract, and bad records stay beside the flow. Sinks receive the change.</desc>
+  <defs>
+    <marker id="ag-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 1 L8 5 L0 9 Z" fill="#5e6b64"/>
+    </marker>
+    <marker id="ag-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 1 L8 5 L0 9 Z" fill="#2f6a4e"/>
+    </marker>
+    <marker id="ag-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 1 L8 5 L0 9 Z" fill="#8a6230"/>
+    </marker>
+    <marker id="ag-rust" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 1 L8 5 L0 9 Z" fill="#8d5348"/>
+    </marker>
+    <marker id="ag-slate" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 1 L8 5 L0 9 Z" fill="#4d6274"/>
+    </marker>
+  </defs>
+  <rect width="1580" height="700" fill="#fbfaf7"/>
+
+  <rect x="16" y="16" width="210" height="668" rx="14" fill="#f7f3ec" stroke="#e0d5c4"/>
+  <text x="32" y="44" fill="#8a735c" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">EXTERNAL SOURCES</text>
+  <rect x="32" y="64" width="178" height="58" rx="12" fill="#fffdf8" stroke="#d9cbb6"/>
+  <text x="121" y="98" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="13">Operational databases</text>
+  <rect x="32" y="138" width="178" height="58" rx="12" fill="#fffdf8" stroke="#d9cbb6"/>
+  <text x="121" y="172" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="13">Change data capture</text>
+  <rect x="32" y="212" width="178" height="64" rx="12" fill="#fffdf8" stroke="#d9cbb6"/>
+  <text x="121" y="238" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="13">Application and</text>
+  <text x="121" y="256" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="13">log streams</text>
+  <text x="32" y="312" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">
+    <tspan x="32" dy="0">Systems of record.</tspan>
+    <tspan x="32" dy="18">The platform reads</tspan>
+    <tspan x="32" dy="18">committed change.</tspan>
+  </text>
+
+  <rect x="246" y="16" width="700" height="668" rx="14" fill="#f3f7f4" stroke="#c9d8cf"/>
+  <text x="266" y="44" fill="#2f6a4e" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">AGENTIC LAYER</text>
+  <rect x="266" y="58" width="660" height="72" rx="12" fill="#1f3d34"/>
+  <text x="596" y="86" text-anchor="middle" fill="#f4efe6" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="700">MCP server</text>
+  <text x="596" y="108" text-anchor="middle" fill="#c9d8cf" font-family="Helvetica, Arial, sans-serif" font-size="12">Shared toolbox: read source, publish, check schema, set aside, write sink</text>
+
+  <rect x="266" y="168" width="190" height="84" rx="12" fill="#fffdf8" stroke="#b7c9be"/>
+  <text x="361" y="202" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700">Source agent</text>
+  <text x="361" y="222" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">Reads committed change</text>
+  <rect x="486" y="168" width="210" height="84" rx="12" fill="#fffdf8" stroke="#b7c9be"/>
+  <text x="591" y="198" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700">Transform agent</text>
+  <text x="591" y="218" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">Mask, route, normalize</text>
+  <text x="591" y="234" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">Avro or Protobuf</text>
+  <rect x="726" y="168" width="180" height="84" rx="12" fill="#fffdf8" stroke="#b7c9be"/>
+  <text x="816" y="202" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700">Sink agent</text>
+  <text x="816" y="222" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">Idempotent write-out</text>
+
+  <rect x="266" y="292" width="640" height="64" rx="12" fill="#fffdf8" stroke="#b7c9be"/>
+  <text x="586" y="318" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700">Rules agent</text>
+  <text x="586" y="338" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">A safe change runs quietly. A risky change waits for a person.</text>
+
+  <rect x="266" y="446" width="640" height="60" rx="12" fill="#fffdf8" stroke="#e0cdc6"/>
+  <text x="586" y="470" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700">Schema check</text>
+  <text x="586" y="488" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">Shared contract for readers</text>
+  <rect x="266" y="526" width="640" height="60" rx="12" fill="#fffdf8" stroke="#e0cdc6"/>
+  <text x="586" y="550" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700">Bad records</text>
+  <text x="586" y="568" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">Set aside, with context, so the rest of the feed keeps moving</text>
+
+  <text x="266" y="620" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">
+    <tspan x="266" dy="0">Agents call tools on the MCP server. They do not keep data on the machine.</tspan>
+    <tspan x="266" dy="18">Config, position, and status live in Kafka. A restart continues from the log.</tspan>
+    <tspan x="266" dy="18">Passwords stay in a secrets store. Nothing secret is stored in Git.</tspan>
+  </text>
+
+  <rect x="966" y="16" width="280" height="348" rx="14" fill="#fbf7f0" stroke="#e6d7bc"/>
+  <text x="982" y="44" fill="#8a6230" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">KAFKA</text>
+  <rect x="982" y="168" width="248" height="84" rx="12" fill="#fffdf8" stroke="#e0c89a"/>
+  <text x="1106" y="200" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="700">Data topics</text>
+  <text x="1106" y="220" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">The business stream.</text>
+  <text x="1106" y="236" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">Readers start here.</text>
+  <rect x="982" y="292" width="248" height="64" rx="12" fill="#fffdf8" stroke="#e0c89a"/>
+  <text x="1106" y="318" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700">Agent notes</text>
+  <text x="1106" y="338" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">config, offsets, status</text>
+
+  <rect x="966" y="396" width="280" height="288" rx="14" fill="#f8f4f2" stroke="#e4d4ce"/>
+  <text x="982" y="424" fill="#8d5348" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">CONTRACT AND FAILURES</text>
+  <rect x="982" y="444" width="248" height="64" rx="12" fill="#fffdf8" stroke="#e0cdc6"/>
+  <text x="1106" y="470" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700">Schema registry</text>
+  <text x="1106" y="488" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">Backward or full compatibility</text>
+  <rect x="982" y="524" width="248" height="64" rx="12" fill="#fffdf8" stroke="#e0cdc6"/>
+  <text x="1106" y="550" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700">Dead-letter topics</text>
+  <text x="1106" y="568" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">Poison records, with context</text>
+
+  <rect x="1266" y="16" width="298" height="668" rx="14" fill="#f4f6f8" stroke="#d3dae1"/>
+  <text x="1282" y="44" fill="#4d6274" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">EXTERNAL SINKS</text>
+  <rect x="1282" y="64" width="266" height="52" rx="12" fill="#fffdf8" stroke="#cfd6de"/>
+  <text x="1415" y="95" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="14">Search</text>
+  <rect x="1282" y="132" width="266" height="52" rx="12" fill="#fffdf8" stroke="#cfd6de"/>
+  <text x="1415" y="163" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="14">Object storage</text>
+  <rect x="1282" y="200" width="266" height="52" rx="12" fill="#fffdf8" stroke="#cfd6de"/>
+  <text x="1415" y="231" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="14">Analytical warehouse</text>
+  <rect x="1282" y="268" width="266" height="52" rx="12" fill="#fffdf8" stroke="#cfd6de"/>
+  <text x="1415" y="299" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="14">Downstream applications</text>
+  <text x="1282" y="352" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">
+    <tspan x="1282" dy="0">Each destination runs</tspan>
+    <tspan x="1282" dy="18">on its own, so a heavy</tspan>
+    <tspan x="1282" dy="18">export cannot stall</tspan>
+    <tspan x="1282" dy="18">a time-critical capture.</tspan>
+  </text>
+
+  <path d="M210 93 H232 V210 H266" fill="none" stroke="#c4b49a" stroke-width="1.5" marker-end="url(#ag-arr)"/>
+  <path d="M210 167 H232" fill="none" stroke="#5e6b64" stroke-width="1.6"/>
+  <path d="M210 244 H232 V210" fill="none" stroke="#c4b49a" stroke-width="1.5"/>
+
+  <path d="M361 130 V168" fill="none" stroke="#2f6a4e" stroke-width="1.4" marker-end="url(#ag-green)"/>
+  <path d="M591 130 V168" fill="none" stroke="#2f6a4e" stroke-width="1.4" marker-end="url(#ag-green)"/>
+  <path d="M816 130 V168" fill="none" stroke="#2f6a4e" stroke-width="1.4" marker-end="url(#ag-green)"/>
+
+  <path d="M456 210 H486" fill="none" stroke="#2f6a4e" stroke-width="1.7" marker-end="url(#ag-green)"/>
+  <path d="M696 210 H726" fill="none" stroke="#2f6a4e" stroke-width="1.7" marker-end="url(#ag-green)"/>
+  <path d="M906 210 H982" fill="none" stroke="#8a6230" stroke-width="1.7" marker-end="url(#ag-gold)"/>
+  <text x="922" y="202" fill="#8a6230" font-family="Helvetica, Arial, sans-serif" font-size="11">publish</text>
+
+  <path d="M906 324 H982" fill="none" stroke="#8a6230" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#ag-gold)" marker-start="url(#ag-gold)"/>
+  <path d="M906 476 H982" fill="none" stroke="#8d5348" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#ag-rust)"/>
+  <path d="M906 556 H982" fill="none" stroke="#8d5348" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#ag-rust)"/>
+
+  <path d="M1230 190 H1282" fill="none" stroke="#4d6274" stroke-width="1.5" marker-end="url(#ag-slate)"/>
+  <path d="M1230 210 H1252 V158 H1282" fill="none" stroke="#4d6274" stroke-width="1.4" marker-end="url(#ag-slate)"/>
+  <path d="M1230 226 H1244 V226 H1282" fill="none" stroke="#4d6274" stroke-width="1.4" marker-end="url(#ag-slate)"/>
+  <path d="M1230 242 H1236 V294 H1282" fill="none" stroke="#4d6274" stroke-width="1.4" marker-end="url(#ag-slate)"/>
+</svg>

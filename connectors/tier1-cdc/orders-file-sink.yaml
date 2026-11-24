@@ -1,0 +1,29 @@
+# Open-source FileStream sink for the orders topic produced by orders-service.
+# Dead-letter settings follow the architecture proposal. The sink writes each
+# record as a line in the worker pod at /tmp/orders.sink.
+apiVersion: kafka.strimzi.io/v1
+kind: KafkaConnector
+metadata:
+  name: orders-file-sink
+  namespace: kafka-connect-gitops
+  labels:
+    strimzi.io/cluster: connect-tier1-cdc
+spec:
+  class: org.apache.kafka.connect.file.FileStreamSinkConnector
+  tasksMax: 1
+  autoRestart:
+    enabled: true
+    maxRestarts: 5
+  config:
+    topics: orders
+    file: /tmp/orders.sink
+    # FileStreamSink writes record.value().toString(). StringConverter keeps the
+    # producer JSON intact. JsonConverter would turn it into a Java Map first.
+    key.converter: org.apache.kafka.connect.storage.StringConverter
+    value.converter: org.apache.kafka.connect.storage.StringConverter
+    errors.tolerance: all
+    errors.deadletterqueue.topic.name: dlq.orders-file-sink
+    errors.deadletterqueue.topic.replication.factor: "3"
+    errors.deadletterqueue.context.headers.enable: "true"
+    errors.log.enable: "true"
+    errors.log.include.messages: "false"

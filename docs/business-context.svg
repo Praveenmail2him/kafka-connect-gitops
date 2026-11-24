@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 420" role="img" aria-labelledby="bc-title bc-desc">
+  <title id="bc-title">Business context</title>
+  <desc id="bc-desc">Systems of record feed a streaming integration platform, which carries committed change to operational applications, search, and the warehouse.</desc>
+  <defs>
+    <marker id="bc-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#5e6b64"/>
+    </marker>
+  </defs>
+  <rect width="1120" height="420" fill="#fbfaf7"/>
+
+  <rect x="24" y="24" width="320" height="372" rx="14" fill="#f7f3ec" stroke="#e0d5c4"/>
+  <text x="44" y="56" fill="#8a735c" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="0.6">SYSTEMS OF RECORD</text>
+  <rect x="44" y="76" width="280" height="72" rx="12" fill="#fffdf8" stroke="#d9cbb6"/>
+  <text x="184" y="118" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="15">Business applications</text>
+  <rect x="44" y="164" width="280" height="72" rx="12" fill="#fffdf8" stroke="#d9cbb6"/>
+  <text x="184" y="206" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="15">Operational databases</text>
+  <rect x="44" y="252" width="280" height="72" rx="12" fill="#fffdf8" stroke="#d9cbb6"/>
+  <text x="184" y="294" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="15">Event and log streams</text>
+  <text x="44" y="356" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">The systems that already know a fact.</text>
+
+  <rect x="420" y="146" width="280" height="128" rx="16" fill="#1f3d34"/>
+  <text x="560" y="198" text-anchor="middle" fill="#f4efe6" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="700">Streaming integration</text>
+  <text x="560" y="220" text-anchor="middle" fill="#f4efe6" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="700">platform</text>
+  <text x="560" y="246" text-anchor="middle" fill="#c9d8cf" font-family="Helvetica, Arial, sans-serif" font-size="12">The supported path for change</text>
+
+  <rect x="776" y="24" width="320" height="372" rx="14" fill="#f4f6f8" stroke="#d3dae1"/>
+  <text x="796" y="56" fill="#4d6274" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="0.4">WHERE THE BUSINESS USES THE CHANGE</text>
+  <rect x="796" y="76" width="280" height="72" rx="12" fill="#fffdf8" stroke="#cfd6de"/>
+  <text x="936" y="118" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="15">Operational applications</text>
+  <rect x="796" y="164" width="280" height="72" rx="12" fill="#fffdf8" stroke="#cfd6de"/>
+  <text x="936" y="198" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="15">Search and customer</text>
+  <text x="936" y="218" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="15">experience</text>
+  <rect x="796" y="252" width="280" height="72" rx="12" fill="#fffdf8" stroke="#cfd6de"/>
+  <text x="936" y="294" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="15">Analytics and the warehouse</text>
+  <text x="796" y="356" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">No private copy of the source.</text>
+
+  <path d="M324 112 H372 V210 H420" fill="none" stroke="#5e6b64" stroke-width="1.5" marker-end="url(#bc-arrow)"/>
+  <path d="M324 200 H372" fill="none" stroke="#c4b49a" stroke-width="1.5"/>
+  <path d="M324 288 H372 V210" fill="none" stroke="#c4b49a" stroke-width="1.5"/>
+  <path d="M700 210 H748 V112 H776" fill="none" stroke="#5e6b64" stroke-width="1.5" marker-end="url(#bc-arrow)"/>
+  <path d="M748 210 H776" fill="none" stroke="#5e6b64" stroke-width="1.5" marker-end="url(#bc-arrow)"/>
+  <path d="M748 210 V288 H776" fill="none" stroke="#5e6b64" stroke-width="1.5" marker-end="url(#bc-arrow)"/>
+</svg>

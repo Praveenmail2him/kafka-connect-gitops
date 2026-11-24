@@ -1,0 +1,87 @@
+# Upstream Strimzi ephemeral example, adapted for this cluster.
+# https://strimzi.io/examples/latest/kafka/kafka-ephemeral.yaml
+# Storage is ephemeral because the cluster has no StorageClass.
+# Node pools are separate controller and broker roles, as in the 1.3 examples.
+apiVersion: kafka.strimzi.io/v1
+kind: KafkaNodePool
+metadata:
+  name: controller
+  namespace: kafka-connect-gitops
+  labels:
+    strimzi.io/cluster: demo-kafka
+spec:
+  replicas: 3
+  roles:
+    - controller
+  resources:
+    requests:
+      cpu: 200m
+      memory: 1Gi
+    limits:
+      cpu: "1"
+      memory: 1536Mi
+  jvmOptions:
+    -Xms: 384m
+    -Xmx: 384m
+  storage:
+    type: jbod
+    volumes:
+      - id: 0
+        type: ephemeral
+        kraftMetadata: shared
+---
+apiVersion: kafka.strimzi.io/v1
+kind: KafkaNodePool
+metadata:
+  name: broker
+  namespace: kafka-connect-gitops
+  labels:
+    strimzi.io/cluster: demo-kafka
+spec:
+  replicas: 3
+  roles:
+    - broker
+  resources:
+    requests:
+      cpu: 250m
+      memory: 1536Mi
+    limits:
+      cpu: "1"
+      memory: 2Gi
+  jvmOptions:
+    -Xms: 768m
+    -Xmx: 768m
+  storage:
+    type: jbod
+    volumes:
+      - id: 0
+        type: ephemeral
+        kraftMetadata: shared
+---
+apiVersion: kafka.strimzi.io/v1
+kind: Kafka
+metadata:
+  name: demo-kafka
+  namespace: kafka-connect-gitops
+spec:
+  kafka:
+    version: 4.3.2
+    metadataVersion: 4.3-IV0
+    listeners:
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+      - name: tls
+        port: 9093
+        type: internal
+        tls: true
+    config:
+      offsets.topic.replication.factor: 3
+      transaction.state.log.replication.factor: 3
+      transaction.state.log.min.isr: 2
+      default.replication.factor: 3
+      min.insync.replicas: 2
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}

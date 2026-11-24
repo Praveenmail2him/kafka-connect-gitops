@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1560 800" role="img" aria-labelledby="cl-title cl-desc">
+  <title id="cl-title">Conceptual and logical architecture</title>
+  <desc id="cl-desc">External sources flow through stateless Kafka Connect workers into Kafka topics, with a schema contract and dead-letter topics, then out to search, object storage, the warehouse, and downstream applications.</desc>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 1 L8 5 L0 9 Z" fill="#5e6b64"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 1 L8 5 L0 9 Z" fill="#2f6a4e"/>
+    </marker>
+    <marker id="arr-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 1 L8 5 L0 9 Z" fill="#8a6230"/>
+    </marker>
+    <marker id="arr-rust" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 1 L8 5 L0 9 Z" fill="#8d5348"/>
+    </marker>
+    <marker id="arr-slate" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 1 L8 5 L0 9 Z" fill="#4d6274"/>
+    </marker>
+  </defs>
+  <rect width="1560" height="800" fill="#fbfaf7"/>
+
+  <rect x="16" y="16" width="220" height="708" rx="14" fill="#f7f3ec" stroke="#e0d5c4"/>
+  <text x="32" y="44" fill="#8a735c" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">EXTERNAL SOURCES</text>
+  <rect x="32" y="64" width="188" height="64" rx="12" fill="#fffdf8" stroke="#d9cbb6"/>
+  <text x="126" y="101" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="13">Operational databases</text>
+  <rect x="32" y="148" width="188" height="64" rx="12" fill="#fffdf8" stroke="#d9cbb6"/>
+  <text x="126" y="185" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="13">Change data capture</text>
+  <rect x="32" y="232" width="188" height="72" rx="12" fill="#fffdf8" stroke="#d9cbb6"/>
+  <text x="126" y="262" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="13">Application and</text>
+  <text x="126" y="280" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="13">log streams</text>
+  <text x="32" y="348" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">
+    <tspan x="32" dy="0">Systems of record.</tspan>
+    <tspan x="32" dy="18">The platform reads</tspan>
+    <tspan x="32" dy="18">committed change.</tspan>
+  </text>
+
+  <rect x="260" y="16" width="640" height="708" rx="14" fill="#f3f7f4" stroke="#c9d8cf"/>
+  <text x="280" y="44" fill="#2f6a4e" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">KAFKA CONNECT  ·  DISTRIBUTED MODE</text>
+  <text x="280" y="76" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="700" letter-spacing="0.4">EXECUTION LAYER</text>
+  <rect x="280" y="90" width="186" height="42" rx="12" fill="#1f3d34"/>
+  <text x="373" y="116" text-anchor="middle" fill="#f4efe6" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700">Worker 1</text>
+  <rect x="482" y="90" width="186" height="42" rx="12" fill="#1f3d34"/>
+  <text x="575" y="116" text-anchor="middle" fill="#f4efe6" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700">Worker 2</text>
+  <rect x="684" y="90" width="186" height="42" rx="12" fill="#1f3d34"/>
+  <text x="777" y="116" text-anchor="middle" fill="#f4efe6" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700">Worker N</text>
+  <text x="280" y="156" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">Stateless workers. A connector is the job. Tasks run in parallel.</text>
+
+  <text x="280" y="192" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="700" letter-spacing="0.4">TRANSFORMATION AND SERIALIZATION</text>
+  <rect x="280" y="208" width="176" height="88" rx="12" fill="#fffdf8" stroke="#b7c9be"/>
+  <text x="368" y="246" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700">Source tasks</text>
+  <text x="368" y="266" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">Read committed change</text>
+  <rect x="488" y="208" width="196" height="88" rx="12" fill="#fffdf8" stroke="#b7c9be"/>
+  <text x="586" y="242" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700">SMTs and converters</text>
+  <text x="586" y="262" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">Mask, route, normalize</text>
+  <text x="586" y="278" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">Avro or Protobuf</text>
+  <rect x="716" y="208" width="156" height="88" rx="12" fill="#fffdf8" stroke="#b7c9be"/>
+  <text x="794" y="246" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700">Sink tasks</text>
+  <text x="794" y="266" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">Idempotent write-out</text>
+
+  <text x="280" y="360" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">
+    <tspan x="280" dy="0">Workers keep no local state. A restart resumes from the log.</tspan>
+    <tspan x="280" dy="18">Credentials resolve at runtime. Nothing secret is stored in Git.</tspan>
+  </text>
+
+  <text x="280" y="420" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="700" letter-spacing="0.4">STATE AND COORDINATION</text>
+  <rect x="280" y="436" width="392" height="56" rx="12" fill="#fffdf8" stroke="#b7c9be"/>
+  <text x="476" y="460" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700">Offsets, config, and status</text>
+  <text x="476" y="478" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">Held in Kafka, not on the worker</text>
+
+  <text x="280" y="532" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">
+    <tspan x="280" dy="0">Cooperative rebalancing pauses only the tasks that move.</tspan>
+    <tspan x="280" dy="18">Three layers: execution, state, and serialization.</tspan>
+  </text>
+
+  <rect x="960" y="16" width="280" height="360" rx="14" fill="#fbf7f0" stroke="#e6d7bc"/>
+  <text x="976" y="44" fill="#8a6230" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">KAFKA CORE</text>
+  <rect x="976" y="64" width="248" height="92" rx="12" fill="#fffdf8" stroke="#e0c89a"/>
+  <text x="1100" y="98" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="700">Data topics</text>
+  <text x="1100" y="120" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">The business stream.</text>
+  <text x="1100" y="138" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">Consumers read from here.</text>
+  <rect x="976" y="176" width="248" height="116" rx="12" fill="#fffdf8" stroke="#e0c89a"/>
+  <text x="1100" y="206" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="700">Internal state topics</text>
+  <text x="1100" y="228" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">configs · offsets · status</text>
+  <text x="1100" y="246" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">Compacted. Replication 3.</text>
+  <text x="1100" y="264" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">Minimum in-sync replicas 2.</text>
+  <text x="976" y="324" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">
+    <tspan x="976" dy="0">Connect and the brokers are</tspan>
+    <tspan x="976" dy="18">separate failure domains.</tspan>
+  </text>
+
+  <rect x="960" y="396" width="280" height="328" rx="14" fill="#f8f4f2" stroke="#e4d4ce"/>
+  <text x="976" y="424" fill="#8d5348" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">CONTRACT AND FAILURES</text>
+  <rect x="976" y="444" width="248" height="88" rx="12" fill="#fffdf8" stroke="#e0cdc6"/>
+  <text x="1100" y="478" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="700">Schema Registry</text>
+  <text x="1100" y="500" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">Backward or full</text>
+  <text x="1100" y="516" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">compatibility</text>
+  <rect x="976" y="552" width="248" height="88" rx="12" fill="#fffdf8" stroke="#e0cdc6"/>
+  <text x="1100" y="586" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="700">Dead-letter topics</text>
+  <text x="1100" y="608" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">Poison records, with</text>
+  <text x="1100" y="624" text-anchor="middle" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">context headers</text>
+
+  <rect x="1288" y="16" width="256" height="708" rx="14" fill="#f4f6f8" stroke="#d3dae1"/>
+  <text x="1304" y="44" fill="#4d6274" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">EXTERNAL SINKS</text>
+  <rect x="1304" y="64" width="224" height="56" rx="12" fill="#fffdf8" stroke="#cfd6de"/>
+  <text x="1416" y="97" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="14">Search</text>
+  <rect x="1304" y="136" width="224" height="56" rx="12" fill="#fffdf8" stroke="#cfd6de"/>
+  <text x="1416" y="169" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="14">Object storage</text>
+  <rect x="1304" y="208" width="224" height="56" rx="12" fill="#fffdf8" stroke="#cfd6de"/>
+  <text x="1416" y="241" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="14">Analytical warehouse</text>
+  <rect x="1304" y="280" width="224" height="56" rx="12" fill="#fffdf8" stroke="#cfd6de"/>
+  <text x="1416" y="313" text-anchor="middle" fill="#1b2420" font-family="Helvetica, Arial, sans-serif" font-size="14">Downstream applications</text>
+  <text x="1304" y="372" fill="#5e6b64" font-family="Helvetica, Arial, sans-serif" font-size="12">
+    <tspan x="1304" dy="0">Each sink class runs in</tspan>
+    <tspan x="1304" dy="18">its own Connect cluster,</tspan>
+    <tspan x="1304" dy="18">so a heavy batch writer</tspan>
+    <tspan x="1304" dy="18">cannot stall capture.</tspan>
+  </text>
+
+  <!-- sources -> source tasks. Source panel ends 236. Connect starts 260. Source task left 280, mid y 252. -->
+  <path d="M220 96 H244 V252 H280" fill="none" stroke="#c4b49a" stroke-width="1.5" marker-end="url(#arr)"/>
+  <path d="M220 180 H244" fill="none" stroke="#5e6b64" stroke-width="1.6"/>
+  <path d="M220 268 H244 V252" fill="none" stroke="#c4b49a" stroke-width="1.5"/>
+
+  <!-- task chain. Source ends 456. SMT starts 488. SMT ends 684. Sink starts 716. -->
+  <path d="M456 252 H488" fill="none" stroke="#2f6a4e" stroke-width="1.7" marker-end="url(#arr-green)"/>
+  <path d="M684 252 H716" fill="none" stroke="#2f6a4e" stroke-width="1.7" marker-end="url(#arr-green)"/>
+
+  <!-- publish: sink right 872 -> channel -> data topics -->
+  <path d="M872 230 H912 V110 H976" fill="none" stroke="#8a6230" stroke-width="1.7" marker-end="url(#arr-gold)"/>
+  <text x="744" y="186" fill="#8a6230" font-family="Helvetica, Arial, sans-serif" font-size="11">publish</text>
+
+  <!-- state chip -> internal topics -->
+  <path d="M672 464 H928 V250 H976" fill="none" stroke="#8a6230" stroke-width="1.4" stroke-dasharray="5 4" marker-start="url(#arr-gold)" marker-end="url(#arr-gold)"/>
+
+  <!-- schema contract under the task boxes, into the top of Schema Registry -->
+  <path d="M586 296 V314 H940 V452" fill="none" stroke="#8d5348" stroke-width="1.4" stroke-dasharray="5 4" marker-start="url(#arr-rust)" marker-end="url(#arr-rust)"/>
+  <text x="604" y="338" fill="#8d5348" font-family="Helvetica, Arial, sans-serif" font-size="11">schema contract</text>
+
+  <!-- poison records pass above the schema line, down the channel, and enter the dead-letter box from below -->
+  <path d="M872 274 H954 V760 H1100 V648" fill="none" stroke="#8d5348" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#arr-rust)"/>
+  <text x="980" y="752" fill="#8d5348" font-family="Helvetica, Arial, sans-serif" font-size="11">poison records</text>
+
+  <!-- data topics right 1224 -> sinks left 1304 -->
+  <path d="M1224 96 H1264 V92 H1304" fill="none" stroke="#4d6274" stroke-width="1.6" marker-end="url(#arr-slate)"/>
+  <path d="M1224 112 H1256 V164 H1304" fill="none" stroke="#4d6274" stroke-width="1.4" marker-end="url(#arr-slate)"/>
+  <path d="M1224 128 H1248 V236 H1304" fill="none" stroke="#4d6274" stroke-width="1.4" marker-end="url(#arr-slate)"/>
+  <path d="M1224 144 H1240 V308 H1304" fill="none" stroke="#4d6274" stroke-width="1.4" marker-end="url(#arr-slate)"/>
+</svg>
