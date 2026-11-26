@@ -1,0 +1,29 @@
+test:
+  - mvn
+  - -f
+  - orders-service/pom.xml
+  - -q
+  - -DskipTests
+  - package
+silent:
+  files:
+    - orders-service/pom.xml
+    - orders-service/Dockerfile
+  baseImages:
+    allowDigestBump: true
+    allowSameMajor: true
+    allowDistroChange: false
+  ecosystems:
+    maven:
+      - patch
+      - minor
+    docker:
+      - patch
+novel:
+  feed: .cli-agent/findings
+  autoApplyControls: []
+git:
+  enabled: false
+  push: false
+  openPullRequest: false
+  autoMerge: true

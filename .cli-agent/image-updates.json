@@ -1,0 +1,9 @@
+[
+  {
+    "id": "BASE-ubi9-openjdk-17",
+    "image": "registry.access.redhat.com/ubi9/openjdk-17-runtime",
+    "currentTag": "latest",
+    "newTag": "1.21",
+    "location": "orders-service/Dockerfile"
+  }
+]

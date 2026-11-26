@@ -1,0 +1,10 @@
+[
+  {
+    "id": "UPDATE-spring-boot-parent",
+    "ecosystem": "maven",
+    "component": "org.springframework.boot:spring-boot-starter-parent",
+    "version": "3.5.7",
+    "fixedVersion": "3.5.8",
+    "location": "orders-service/pom.xml"
+  }
+]
